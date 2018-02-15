@@ -1,0 +1,7 @@
+[package]
+name = "common_programming_concepts"
+version = "0.1.0"
+authors = ["Patryk Madajczyk <Patryk990@gmail.com>"]
+
+[dependencies]
+variables_and_mutability = { path = "variables_and_mutability" }
