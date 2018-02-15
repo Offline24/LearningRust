@@ -15,7 +15,7 @@ fn main() {
                 println!("You win!");
                 break
             }
-            result => print_bad_guess_message(result)
+            CheckResult::Error(error) => print_bad_guess_message(error)
         }
     }
 }
@@ -42,22 +42,25 @@ fn take_guess() -> i32 {
 
 fn check(secret: i32, guess: i32) -> CheckResult {
     match guess.cmp(&secret) {
-        Ordering::Less => CheckResult::TooSmall,
-        Ordering::Greater => CheckResult::TooBig,
+        Ordering::Less => CheckResult::Error(CheckError::TooSmall),
+        Ordering::Greater => CheckResult::Error(CheckError::TooBig),
         Ordering::Equal => CheckResult::Equal
     }
 }
 
-fn print_bad_guess_message(check_result: CheckResult) {
-    match check_result {
-        CheckResult::TooSmall => println!("Too small"),
-        CheckResult::TooBig => println!("Roo big"),
-        _ => panic!("Unsupported value passed")
+fn print_bad_guess_message(check_error: CheckError) {
+    match check_error {
+        CheckError::TooSmall => println!("Too small"),
+        CheckError::TooBig => println!("Roo big"),
     }
 }
 
 enum CheckResult {
-    TooSmall,
-    TooBig,
+    Error(CheckError),
     Equal
+}
+
+enum CheckError {
+    TooSmall,
+    TooBig
 }
